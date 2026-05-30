@@ -77,6 +77,7 @@ const dukker = {
     beskrivelse:
       "Du er kreativ, fantasifuld og tør være lidt anderledes. Du skaber din egen verden og lader ikke andre definere din identitet – det er modigt!",
     baggrundKlasse: "lulu-baggrund",
+    billedeKlasse: "lulu-billede",
   },
   Sinhu: {
     navn: "Sinhu",
@@ -85,6 +86,7 @@ const dukker = {
     beskrivelse:
       "Du er en sjælden, dyb og magisk beskytter. Ligesom Ovartacis elskede papmaché-hest er du gruppens mest loyale ven og en rådgiver, man kan søge hjælp hos.",
     baggrundKlasse: "sinhu-baggrund",
+    billedeKlasse: "sinhu-billede",
   },
   Pupparpasta: {
     navn: "Pupparpasta",
@@ -93,6 +95,7 @@ const dukker = {
     beskrivelse:
       "Du er indbegrebet af leg og humor. For dig er verden et sted uden stramme regler, hvor der altid er plads til nye, skøre og fantastiske idéer.",
     baggrundKlasse: "pupparpasta-baggrund",
+    billedeKlasse: "pupparpasta-billede",
   },
   Verda: {
     navn: "Verda",
@@ -101,6 +104,7 @@ const dukker = {
     beskrivelse:
       "Du er den trofaste ven, der elsker det nære selskab. Du trives bedst på eventyr i hverdagen - gerne en cykeltur til stranden med nogen, du holder af.",
     baggrundKlasse: "verda-baggrund",
+    billedeKlasse: "verda-billede",
   },
   Dragen: {
     navn: "Dragen",
@@ -109,6 +113,7 @@ const dukker = {
     beskrivelse:
       "Du er det ultimative symbol på frihed. Du elsker følelsen af uafhængighed og drømmer stort om at kunne bevæge dig frit – både i tid og sted.",
     baggrundKlasse: "dragen-baggrund",
+    billedeKlasse: "dragen-billede",
   },
 };
 
@@ -181,8 +186,19 @@ function visResultat() {
   localStorage.setItem("quizVinder", winner);
 
   let gemtVinder = localStorage.getItem("quizVinder");
+  const dukke = dukker[gemtVinder];
 
-  document.getElementById("dukke-navn").innerText = dukker[gemtVinder].navn;
-  document.getElementById("dukke-billede").src = dukker[gemtVinder].billede;
-  document.getElementById("dukke-vinger").src = dukker[gemtVinder].baggrund;
+  document.getElementById("dukke-navn").innerText = dukke.navn;
+
+  // Sæt dukke-billede med individuel klasse
+  const billedeEl = document.getElementById("dukke-billede");
+  billedeEl.src = dukke.billede;
+  billedeEl.className = "dukke-billede"; // nulstil tidligere klasse
+  billedeEl.classList.add(dukke.billedeKlasse); // tilføj den specifikke
+
+  // Sæt baggrund/gif med individuel klasse
+  const baggrundEl = document.getElementById("dukke-vinger");
+  baggrundEl.src = dukke.baggrund;
+  baggrundEl.className = "dukke-baggrund"; // nulstil tidligere klasse
+  baggrundEl.classList.add(dukke.baggrundKlasse); // tilføj den specifikke
 }
