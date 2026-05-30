@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ovartaci - Quiz</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gotu&family=Jua&family=Yrsa:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container-ipad">
+        <div class="hvid-boks">
+
+            <!-- START-SKÆRM -->
+            <div id="start-skaerm" class="skaerm-sektion">
+                <h1>Hvem minder <span class="du">du</span> om?</h1>
+                <div class="undertekst">
+                    <p>Tag quizzen og find ud af hvilken af Ovartacis dukker, du minder mest om.</p>
+                </div>
+                <img src="img/forside.gif" alt="forside gif" class="forside-gif">
+                <button class="start-knap" onclick="startQuiz()">Start Quiz</button>
+                <img src="img/haand.png" alt="haand" class="haand">
+            </div>
+
+            <!-- QUIZ-SKÆRM -->
+            <div id="quiz-skaerm" class="skaerm-sektion skjult">
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <h2 id="spg-tekst">Spørgsmål</h2>
+                <div id="svar-knap-container"></div>
+                <button class="tilbage-knap" onclick="goBackToStart()">Tilbage til forsiden</button>
+            </div>
+
+            <!-- VENTE-SKÆRM -->
+            <div id="vente-side" class="skaerm-sektion skjult">
+                <div class="du-er"><p>Du er...</p></div>
+                <img src="img/vente.gif" alt="vente gif" class="vente-gif">
+            </div>
+
+            <!-- RESULTAT-SKÆRM -->
+            <div id="resultat-skaerm" class="skaerm-sektion skjult">
+                <p class="du-er-tekst">Du er...</p>
+                <h1 id="dukke-navn">Dukkens navn</h1>
+
+                <img class="dukke-vinger" src="" alt="baggrund på dukke bevæger sig" id="dukke-vinger">
+
+                <div class="dukke">
+                    <img class="dukke-billede" src="#" alt="billede af dukke" id="dukke-billede">
+                </div>
+
+                <div class="hvorfor-box">
+                    <span class="hvorfor-tekst">Hvorfor?</span>
+                    <img class="pil-videre" src="img/pil-videre.png" alt="pil videre">
+                </div>
+
+                <button class="tilbage-forside-knap" onclick="goBackToStart()">
+                    <img src="img/tilbage.png" alt="tilbage til forside">Tilbage til forside
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

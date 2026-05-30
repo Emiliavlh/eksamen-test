@@ -1,7 +1,4 @@
-// ================================================
-// SPØRGSMÅL OG SVAR
-// ================================================
-
+// Array med spg og svar
 const spg = [
   {
     spg: "Hvad er din absolut største styrke?",
@@ -71,11 +68,7 @@ const spg = [
   },
 ];
 
-// ================================================
-// DUKKE-DATA
-// Tilføj billede og vinger-sti til hver dukke
-// ================================================
-
+// Data om de 5 dukker
 const dukker = {
   Lulu: {
     navn: "Lulu",
@@ -86,7 +79,7 @@ const dukker = {
     baggrundKlasse: "lulu-baggrund",
   },
   Sinhu: {
-    navn: "Sinhu-hesten",
+    navn: "Sinhu",
     billede: "img/sinhu.png",
     baggrund: "img/vinger.gif",
     beskrivelse:
@@ -119,27 +112,25 @@ const dukker = {
   },
 };
 
-// ================================================
-// QUIZ-LOGIK
-// ================================================
-
+// Pointsystem
 let spgIndex = 0;
 let scores = { Lulu: 0, Sinhu: 0, Pupparpasta: 0, Verda: 0, Dragen: 0 };
 
+// Starter quizzen
 function startQuiz() {
+  document.getElementById("start-skaerm").style.display = "none";
+  document.getElementById("quiz-skaerm").style.display = "block";
   spgIndex = 0;
-  scores = { Lulu: 0, Sinhu: 0, Pupparpasta: 0, Verda: 0, Dragen: 0 };
-
-  document.getElementById("start-skaerm").classList.add("skjult");
-  document.getElementById("quiz-skaerm").classList.remove("skjult");
-
+  scores = { Lulu: 0, Sinhu: 0, Pupparpasta: 0, Verda: 0, Dragen: 0 }; // Nulstil point
   visSpoergsmaal();
 }
 
+// Viser spørgsmålene
 function visSpoergsmaal() {
   const aktuelleSpg = spg[spgIndex];
   document.getElementById("spg-tekst").innerText = aktuelleSpg.spg;
 
+  // Opdaterer progress bar
   const procent = ((spgIndex + 1) / spg.length) * 100;
   document.getElementById("progress-bar").style.width = procent + "%";
 
@@ -159,46 +150,39 @@ function visSpoergsmaal() {
       if (spgIndex < spg.length) {
         visSpoergsmaal();
       } else {
-        visVenteSide();
+        visLoadingSkaerm(); // Viser loading skærm
       }
     };
     svarContainer.appendChild(btn);
   });
 }
 
-function visVenteSide() {
-  document.getElementById("quiz-skaerm").classList.add("skjult");
-  document.getElementById("vente-side").classList.remove("skjult");
+// Loading skærm
+function visLoadingSkaerm() {
+  document.getElementById("quiz-skaerm").style.display = "none";
+  document.getElementById("vente-side").style.display = "block";
 
-  // Vis resultat efter 2 sekunder
-  setTimeout(visResultat, 2000);
+  setTimeout(visResultat, 1000);
 }
 
+// Beregner vinder og gemmer i localstorage
 function visResultat() {
-  // Find dukken med flest point — ved stemmelighed trækkes lod
+  document.getElementById("vente-side").style.display = "none";
+  document.getElementById("resultat-skaerm").style.display = "block";
+
+  // Finder højeste score eller trækker lod ved stemmelighed
   const maxScore = Math.max(...Object.values(scores));
-  const winners = Object.keys(scores).filter((d) => scores[d] === maxScore);
-  const winner = winners[Math.floor(Math.random() * winners.length)];
+  const winners = Object.keys(scores).filter(
+    (dukke) => scores[dukke] === maxScore,
+  );
+  const randomWinnerIndex = Math.floor(Math.random() * winners.length);
+  const winner = winners[randomWinnerIndex];
 
-  const dukke = dukker[winner];
-  const baggrundEl = document.getElementById("dukke-baggrund");
-  baggrundEl.src = dukke.baggrund;
-  baggrundEl.className = "dukke-baggrund"; // nulstil tidligere klasse
-  baggrundEl.classList.add(dukke.baggrundKlasse); // tilføj den specifikke
+  localStorage.setItem("quizVinder", winner);
 
-  // Sæt navn og billeder
-  document.getElementById("dukke-navn").innerText = dukke.navn;
-  document.getElementById("dukke-billede").src = dukke.billede;
-  document.getElementById("dukke-baggrund").src = dukke.baggrund;
+  let gemtVinder = localStorage.getItem("quizVinder");
 
-  // Skift skærm
-  document.getElementById("vente-side").classList.add("skjult");
-  document.getElementById("resultat-skaerm").classList.remove("skjult");
-}
-
-function goBackToStart() {
-  document.getElementById("quiz-skaerm").classList.add("skjult");
-  document.getElementById("vente-side").classList.add("skjult");
-  document.getElementById("resultat-skaerm").classList.add("skjult");
-  document.getElementById("start-skaerm").classList.remove("skjult");
+  document.getElementById("dukke-navn").innerText = dukker[gemtVinder].navn;
+  document.getElementById("dukke-billede").src = dukker[gemtVinder].billede;
+  document.getElementById("dukke-vinger").src = dukker[gemtVinder].baggrund;
 }
