@@ -7,9 +7,9 @@ body {
 
 /* Låser formatet til en iPad på højkant*/
 .container-ipad {
-  height: 100dvh;
-  max-height: 1020px; /* Må aldrig blive højere end en iPad */
-  aspect-ratio: 3 / 4;  
+  height: 100vh;
+  max-height: 1024px; /* Må aldrig blive højere end en iPad */
+  aspect-ratio: 3 / 4;
   margin: 0 auto; /* Centrerer kassen på computerskærmen */
 
   /* Baggrundsbillede */
