@@ -1,10 +1,4 @@
-/* ============================================================
-   QUIZ-SPØRGSMÅL OG SVAR
-   ============================================================
-   Array indeholdende alle quiz-spørgsmål med svarmulig-
-   heder. Hvert svar er knyttet til en bestemt dukke.
-   Antal svar i hvert spørgsmål = antal dukker (5)
-   ============================================================ */
+// Array med spg og svar
 const spg = [
   {
     spg: "Hvad er din absolut største styrke?",
@@ -74,17 +68,7 @@ const spg = [
   },
 ];
 
-/* ============================================================
-   DUKKE-DATA OG PERSONLIGHEDER
-   ============================================================
-   Objekt med information om hver dukke:
-   - navn: Dukkens navn
-   - billede: Sti til dukke-billede
-   - baggrund: Sti til animeret baggrund/vinger
-   - beskrivelse: Personlighedsbeskrivelse
-   - baggrundKlasse: CSS-klasse for baggrund-styling
-   - billedeKlasse: CSS-klasse for billede-styling
-   ============================================================ */
+// Data om de 5 dukker
 const dukker = {
   Lulu: {
     navn: "Lulu",
@@ -133,101 +117,60 @@ const dukker = {
   },
 };
 
-/* ============================================================
-   GLOBALE VARIABLER
-   ============================================================
-   spgIndex: Holder styr på hvilket spørgsmål vi er på
-   scores: Tæller point for hver dukke baseret på svar
-   ============================================================ */
+// Pointsystem
 let spgIndex = 0;
 let scores = { Lulu: 0, Sinhu: 0, Pupparpasta: 0, Verda: 0, Dragen: 0 };
 
-/* ============================================================
-   STARTQUIZ()
-   ============================================================
-   Nulstiller quiz og starter det hele.
-   Skjuler start-skærmen, viser quiz-skærmen.
-   ============================================================ */
+// Starter quizzen
 function startQuiz() {
   document.getElementById("start-skaerm").style.display = "none";
   document.getElementById("quiz-skaerm").style.display = "block";
   spgIndex = 0;
-  scores = { Lulu: 0, Sinhu: 0, Pupparpasta: 0, Verda: 0, Dragen: 0 };
+  scores = { Lulu: 0, Sinhu: 0, Pupparpasta: 0, Verda: 0, Dragen: 0 }; // Nulstil point
   visSpoergsmaal();
 }
 
-/* ============================================================
-   VISSPØRGSMÅL()
-   ============================================================
-   Viser det nuværende spørgsmål og alle svarmulig-
-   heder som clickable knapper.
-   
-   Funktionalitet:
-   - Henter spørgsmål fra array
-   - Opdaterer progress bar
-   - Genererer svar-knapper dynamisk
-   - Håndterer klik på svar (tilføjer point & går videre)
-   ============================================================ */
+// Viser spørgsmålene
 function visSpoergsmaal() {
   const aktuelleSpg = spg[spgIndex];
   document.getElementById("spg-tekst").innerText = aktuelleSpg.spg;
 
-  // Beregner progress-bar procent (hvor langt man er kommet)
+  // Opdaterer progress bar
   const procent = ((spgIndex + 1) / spg.length) * 100;
   document.getElementById("progress-bar").style.width = procent + "%";
 
-  // Henter container der skal indeholde alle svar-knapper
   const svarContainer = document.getElementById("svar-knap-container");
-  svarContainer.innerHTML = ""; // Sletter gamle knapper
+  svarContainer.innerHTML = "";
 
-  // Gennemgår alle mulige svar og laver en knap for hver
   aktuelleSpg.svar.forEach((ans) => {
     const btn = document.createElement("button");
     btn.innerText = ans.tekst;
     btn.className = "quiz-svarknap";
     btn.onclick = () => {
-      // Tilføjer 1 point til den valgte dukkepersonlighed
       if (ans.dukke) {
         scores[ans.dukke]++;
       }
-      spgIndex++; // Går til næste spørgsmål
+      spgIndex++;
 
-      // Tjekker om der er flere spørgsmål
       if (spgIndex < spg.length) {
-        visSpoergsmaal(); // Viser næste spørgsmål
+        visSpoergsmaal();
       } else {
-        visLoadingSkaerm(); // Quiz er færdig - viser loading
+        visLoadingSkaerm(); // Viser loading skærm
       }
     };
-    svarContainer.appendChild(btn); // Tilføjer knap til siden
+    svarContainer.appendChild(btn);
   });
 }
 
-/* ============================================================
-   VISLOADINGSKAERM()
-   ============================================================
-   Viser loading-skærm med animation efter quiz.
-   Kalder visResultat() efter 1 sekund.
-   ============================================================ */
+// Loading skærm
 function visLoadingSkaerm() {
   document.getElementById("quiz-skaerm").style.display = "none";
   document.getElementById("vente-side").style.display = "block";
 
-  setTimeout(visResultat, 1000); // Venter 1 sekund før resultat vises
+  setTimeout(visResultat, 1200);
 }
 
-/* ============================================================
-   VISRESULTAT()
-   ============================================================
-   Beregner quiz-resultat og viser den valgte dukke.
-   
-   Functionalitet:
-   - Finder dukken med flest point
-   - Håndterer stemmelighed (trækker lod)
-   - Gemmer resultat i localStorage
-   - Viser dukke-billede, baggrund og navn
-   - Tilføjer CSS-klasser for individuel styling
-   ============================================================ */
+// Beregner vinder og gemmer i localstorage
 function visResultat() {
   document.getElementById("vente-side").style.display = "none";
   document.getElementById("resultat-skaerm").style.display = "block";
@@ -244,14 +187,14 @@ function visResultat() {
   const randomWinnerIndex = Math.floor(Math.random() * winners.length);
   const winner = winners[randomWinnerIndex];
 
-  // Gemmer resultat i browser-hukommelse så det huskes
+  // Gemmer resultat i localstorage
   localStorage.setItem("quizVinder", winner);
 
   // Henter den vindende dukke
   let gemtVinder = localStorage.getItem("quizVinder");
   const dukke = dukker[gemtVinder];
 
-  // Viser dukke-navn
+  // Viser dukke-navn på resultatskærmen
   document.getElementById("dukke-navn").innerText = dukke.navn;
 
   // Sætter dukke-billede og tilføjer CSS-klasse for styling
@@ -265,4 +208,29 @@ function visResultat() {
   baggrundEl.src = dukke.baggrund;
   baggrundEl.className = "dukke-baggrund"; // Nulstiller tidligere klasser
   baggrundEl.classList.add(dukke.baggrundKlasse); // Tilføjer individuel klasse
+
+  //Sender også dukkens info ind i pop-up kortet
+  document.getElementById("popup-dukke-navn").innerText = dukke.navn;
+  document.getElementById("dukke-beskrivelse").innerText = dukke.beskrivelse;
 }
+
+// EVENT LISTENERS: Åbner og lukker pop-up
+document.addEventListener("DOMContentLoaded", () => {
+  const hvorforKnap = document.getElementById("hvorfor-knap");
+  const lukKnap = document.getElementById("luk-popup-knap");
+  const popupKort = document.getElementById("popup-kort");
+
+  // Når man klikker på "Hvorfor?", vises pop-up som et flex-element ovenpå alt andet
+  if (hvorforKnap && popupKort) {
+    hvorforKnap.addEventListener("click", () => {
+      popupKort.style.display = "flex";
+    });
+  }
+
+  // Når man klikker på krydset, skjules popup'en helt igen
+  if (lukKnap && popupKort) {
+    lukKnap.addEventListener("click", () => {
+      popupKort.style.display = "none";
+    });
+  }
+});

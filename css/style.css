@@ -41,6 +41,7 @@ body {
   transform: translate(-50%, -50%);
   box-sizing: border-box;
   overflow: hidden;
+  margin-bottom: 20px;
 }
 
 /* Container til de tre forskellige skærm-sektioner */
@@ -51,6 +52,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  z-index: 5;
 }
 
 /* Tekst styling */
@@ -89,6 +91,7 @@ h1 {
 .start-knap {
   position: relative;
   z-index: 4;
+  top: -20px;
   padding: 15px 100px;
   font-size: 40px;
   font-family: yrsa, sans-serif;
@@ -116,13 +119,13 @@ h1 {
 }
 
 .haand {
-  width: 8%;
+  width: 10%;
   max-width: 700px;
   height: auto;
   z-index: 5;
   position: relative;
   left: 180px;
-  margin-top: -30px;
+  margin-top: -60px;
   animation: haand-puls 1.4s ease-in-out infinite;
   transform-origin: center;
 }
@@ -151,7 +154,7 @@ h1 {
   color: #355c7d;
   border: 4px solid #355c7d;
   border-radius: 999px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+ box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
   max-width: 650px;
   margin: 20px auto;
   width: 75%;
@@ -179,7 +182,7 @@ h1 {
 /* Tilbage-knap */
 .tilbage-knap {
   position: absolute;
-  bottom: 55px;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   background: #e9a3a0;
@@ -200,11 +203,6 @@ h1 {
 .tilbage-pil {
   font-size: 26px;
   font-weight: bold;
-}
-
-.pil-videre {
-  width: 50px;
-  height: auto;
 }
 
 .tilbage-knap::after {
@@ -264,6 +262,7 @@ h1 {
   margin: 0;
   margin-top: 60px;
 }
+
 
 .vente-gif {
   width: 100%;
@@ -335,7 +334,7 @@ h1 {
 
 .verda-baggrund {
   position: absolute;
-  width: 90%;
+  width: 100%;
   height: auto;
   top: 10%;
   left: 0;
@@ -352,12 +351,12 @@ h1 {
 }
 
 .hvorfor-box {
-  width: calc(100% + 80px);
+  width: calc(100% + 90px);
   margin-left: -40px;
   margin-right: -40px;
   background-color: #c1cdda;
-  padding: 20px 30px;
-  z-index: 5;
+  padding: 20px 10px;
+  z-index: 6;
   bottom: 110px;
   position: absolute;
   display: flex;
@@ -365,6 +364,11 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: 20px;
+  cursor: pointer;
+}
+
+.hvorfor-box:hover {
+  background-color: #b0bdc7;
 }
 
 .hvorfor-tekst {
@@ -372,6 +376,11 @@ h1 {
   font-size: 50px;
   color: #345a7c;
   margin: 0;
+}
+
+.pil-videre {
+  width: 50px;
+  height: auto;
 }
 
 /* ================================================
@@ -410,4 +419,102 @@ h1 {
   width: 55%;
   height: auto;
   z-index: 4;
+}
+
+.skjult {
+  display: none;
+}
+
+/* ================================================
+   POP-UP CARDS
+   ================================================ */
+
+/* Containeren starter som skjult */
+.popup-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /*Gør baggrunden lidt mørkere*/
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9;
+}
+
+/* Pop-up indhold */
+.popup-indhold {
+  background-color: #c1cdda;
+  width: 85%;
+  max-width: 500px;
+  padding: 40px 30px;
+  border-radius: 40px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Luk-kryds for at lukke pop-up */
+.luk-popup {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #345a7c;
+  font-family: Arial, sans-serif;
+  line-height: 1;
+  z-index: 10;
+}
+
+/* Navn på dukke */
+#popup-dukke-navn {
+  font-family: yrsa, sans-serif;
+  font-size: 55px;
+  color: #345a7c;
+  margin: 10px 0 20px 0;
+}
+
+/* Beskrivelsesteksten */
+#dukke-beskrivelse {
+  font-family: yrsa, sans-serif;
+  font-size: 24px;
+  color: #345a7c;
+  line-height: 1.4;
+  margin: 0 0 30px 0;
+}
+
+/* Tag billede-knappen i bunden af kortet */
+.tag-billede-knap {
+  background-color: #3e6382;
+  color: white;
+  border: 3px solid #294861;
+  padding: 10px 40px;
+  font-family: 'Afacad', sans-serif;
+  font-size: 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Den hvide glans detalje på knappen */
+.tag-billede-knap::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 20px;
+  width: 25px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 100%;
+  transform: rotate(15deg);
 }
