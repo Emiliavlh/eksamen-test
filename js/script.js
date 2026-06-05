@@ -1,7 +1,7 @@
 // Array med spg og svar
 const spg = [
   {
-    spg: "Hvad er din absolut største styrke?",
+    spg: "Hvad er din største styrke?",
     svar: [
       {
         tekst: "Min evne til at tænke kreativt og skabe min egen stil",
@@ -123,8 +123,8 @@ let scores = { Lulu: 0, Sinhu: 0, Pupparpasta: 0, Verda: 0, Dragen: 0 };
 
 // Starter quizzen
 function startQuiz() {
-  document.getElementById("start-skaerm").style.display = "none";
-  document.getElementById("quiz-skaerm").style.display = "block";
+  document.getElementById("start-skaerm").classList.remove("aktiv");
+  document.getElementById("quiz-skaerm").classList.add("aktiv");
   spgIndex = 0;
   scores = { Lulu: 0, Sinhu: 0, Pupparpasta: 0, Verda: 0, Dragen: 0 }; // Nulstil point
   visSpoergsmaal();
@@ -146,7 +146,7 @@ function visSpoergsmaal() {
     const btn = document.createElement("button");
     btn.innerText = ans.tekst;
     btn.className = "quiz-svarknap";
-    btn.onclick = () => {
+    btn.addEventListener("click", () => {
       if (ans.dukke) {
         scores[ans.dukke]++;
       }
@@ -157,23 +157,23 @@ function visSpoergsmaal() {
       } else {
         visLoadingSkaerm(); // Viser loading skærm
       }
-    };
+    });
     svarContainer.appendChild(btn);
   });
 }
 
 // Loading skærm
 function visLoadingSkaerm() {
-  document.getElementById("quiz-skaerm").style.display = "none";
-  document.getElementById("vente-side").style.display = "block";
+  document.getElementById("quiz-skaerm").classList.remove("aktiv");
+  document.getElementById("vente-side").classList.add("aktiv");
 
   setTimeout(visResultat, 1200);
 }
 
 // Beregner vinder og gemmer i localstorage
 function visResultat() {
-  document.getElementById("vente-side").style.display = "none";
-  document.getElementById("resultat-skaerm").style.display = "block";
+  document.getElementById("vente-side").classList.remove("aktiv");
+  document.getElementById("resultat-skaerm").classList.add("aktiv");
 
   // Finder højeste score blandt alle dukker
   const maxScore = Math.max(...Object.values(scores));
@@ -191,8 +191,7 @@ function visResultat() {
   localStorage.setItem("quizVinder", winner);
 
   // Henter den vindende dukke
-  let gemtVinder = localStorage.getItem("quizVinder");
-  const dukke = dukker[gemtVinder];
+  const dukke = dukker[winner];
 
   // Viser dukke-navn på resultatskærmen
   document.getElementById("dukke-navn").innerText = dukke.navn;
@@ -214,11 +213,15 @@ function visResultat() {
   document.getElementById("dukke-beskrivelse").innerText = dukke.beskrivelse;
 }
 
-// EVENT LISTENERS: Åbner og lukker pop-up
+// EVENT LISTENERS: Start quiz-knap
 document.addEventListener("DOMContentLoaded", () => {
+  const startKnap = document.getElementById("start-quiz-btn");
+  if (startKnap) {
+    startKnap.addEventListener("click", startQuiz);
+  }
+
   const hvorforKnap = document.getElementById("hvorfor-knap");
   const lukKnap = document.getElementById("luk-popup-knap");
-  const popupKort = document.getElementById("popup-kort");
 
   // Når man klikker på "Hvorfor?", vises pop-up som et flex-element ovenpå alt andet
   if (hvorforKnap && popupKort) {
@@ -234,3 +237,125 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Billede skærm
+const video = document.querySelector("#kamera");
+const canvas = document.querySelector("#canvas");
+const ctx = canvas.getContext("2d");
+const kameraKnap = document.querySelector("#kameraKnap");
+const resultatVisning = document.querySelector("#resultatVisning");
+const kameraRamme = document.querySelector(".kamera-ramme");
+const tagetBillede = document.querySelector("#tagetBillede");
+const tagBilledeKnap = document.querySelector("#tagBilledeKnap");
+const resultatSkaerm = document.querySelector("#resultat-skaerm");
+const kameraSkaerm = document.querySelector("#kamera-skaerm");
+const popupKort = document.querySelector("#popup-kort");
+
+const dukkeOverlay = new Image();
+
+function opdaterKameraDukke() {
+  const vinder = localStorage.getItem("quizVinder");
+
+  if (!vinder || !dukker[vinder]) {
+    dukkeOverlay.src = dukker.Pupparpasta.billede;
+    return;
+  }
+
+  dukkeOverlay.src = dukker[vinder].billede;
+}
+
+async function startKamera() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user" },
+      audio: false,
+    });
+    video.srcObject = stream;
+    video.addEventListener("playing", startPreview);
+  } catch (error) {
+    console.error("Kameraet kunne ikke startes:", error);
+  }
+}
+
+// Tegn live preview på canvas løbende
+function startPreview() {
+  canvas.style.display = "block"; // Vis canvas i stedet for video
+  video.style.display = "none"; // Skjul rå video
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  function tegn() {
+    if (video.paused || video.ended) return;
+
+    // Spejlvendt video
+    ctx.save();
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    ctx.restore();
+
+    // Maske ovenpå — samme position hver gang
+    if (dukkeOverlay.complete) {
+      const w = canvas.width * 0.3;
+      const h = canvas.height * 0.5;
+      const x = canvas.width - w - 160;
+      const y = canvas.height - h;
+
+      ctx.drawImage(dukkeOverlay, x, y, w, h);
+    }
+
+    requestAnimationFrame(tegn);
+  }
+
+  tegn();
+}
+
+// Tag billede — frys det nuværende canvas-frame
+kameraKnap.addEventListener("click", () => {
+  if (!video.srcObject) {
+    alert("Kameraet er ikke startet endnu.");
+    return;
+  }
+
+  // Stop live preview
+  video.pause();
+
+  // Canvas viser allerede det frosne billede — sæt det ind i polaroid
+  tagetBillede.src = canvas.toDataURL("image/jpeg", 0.92);
+
+  kameraRamme.style.display = "none";
+  resultatVisning.style.display = "flex";
+});
+
+tagBilledeKnap.addEventListener("click", () => {
+  popupKort.classList.add("skjult");
+
+  resultatSkaerm.style.display = "none";
+  kameraSkaerm.style.display = "block";
+
+  opdaterKameraDukke();
+  startKamera();
+});
+
+const telefonInput = document.querySelector("#telefonInput");
+if (telefonInput) {
+  telefonInput.addEventListener("input", (event) => {
+    let value = event.target.value;
+
+    // Trin 1: Husk om der var et + i starten
+    const starterMedPlus = value.startsWith("+");
+
+    // Trin 2: Fjern alt der ikke er tal
+    value = value.replace(/[^0-9]/g, "");
+
+    // Trin 3: Sæt + tilbage forrest hvis det var der
+    if (starterMedPlus) {
+      value = "+" + value;
+    }
+
+    event.target.value = value;
+  });
+}
+
+
