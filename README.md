@@ -7,11 +7,11 @@ Beskrivelse af projektet: En interaktiv skærm-quiz (iPad-skærm) for Museum Ova
 ## 1. Projektets Struktur & Navngivning
 
 ### Mappe- & filstruktur
-Projektet følger den standarde mappe-struktur, for at gøre projektet og koden mere struktureret.
+Projektet følger den standarde mappe-struktur, for at gøre projektet og koden mere struktureret. Da quizzen skal stå på et museum, har vi også lavet en engelsk udgave, så udenlandske gæster kan være med.
 
-* `/` (Root): Indeholder `index.html` og `engelsk.html`, da det er den fil, browseren leder efter først.
-* `/css`: Indeholder `style.css` og `engelsk.css` (Alt styling og iPad-layout).
-* `/js`: Indeholder `script.js` og `engelsk.js` (Alt logik, pointsystem og kamera-funktionalitet).
+* `/` (Root): Indeholder `index.html` (vores danske forside) og `engelsk.html` (den engelske forside). `index.html` ligger her, da det er den fil, browseren åbner først.
+* `/css`: Indeholder `style.css` og `engelsk.css` (Alt styling og iPad-layout). Der er lavet to forskellige filer, da vi har oversat alt koden, samt klasser og ID-navne, til engelsk i `engelsk.css`.
+* `/js`: Indeholder `script.js` og `engelsk.js` (Alt logik, pointsystem og kamera-funktionalitet). Der er lavet to forskellige filer, da den engelske version skal bruge sine egen spørgsmål, svar og dukke-beskrivelser, og fordi vi har brugt engelske navne til vores variabler i koden.
 * `/img`: Indeholder alle statiske billeder (.png), ikoner (.svg) og animerede baggrunde (.gif)
 
 ![Mappe-struktur](/img/mappe-struktur.png)
@@ -150,9 +150,9 @@ At arbejde sammen om koden var en udfordring til at starte med, da vi lige skull
 
 Vi har undervejs i projektet brugt AI (f.eks. **ChatGPT/Gemini & CoPilot**) som en digital makker og hjælp til koden. Vi har primært brugt det til:
 * **Fejlsøgning og logik i JavaScript:** Da vi skulle have pointsystemet og overgangen mellem spørgsmålene til at fungere helt fejlfrit, brugte vi **Gemini** til at få forklaret, hvordan vi bedst kunne løse problemet. Den hjalp os med at få styr på logikken og strukturere vores funktioner rigtigt.
-    * **Prompt til js:** Google (2026) Gemini, Quiz med JavaScript, 29. maj. Tilgængelig via:[Markdown Live Preview](https://gemini.google.com/share/d1c7a66c8f8f) (Hentet: 29. maj 2026).
+    * **Prompt til js:** Google (2026) Gemini, Quiz med JavaScript, 29. maj. Tilgængelig via:[Gemini prompt, Quiz med JavaScript](https://gemini.google.com/share/d1c7a66c8f8f) (Hentet: 29. maj 2026).
 * **Visuelle effekter og CSS-styling:** For at give vores quiz-knapper et ekstra professionelt løft, spurgte vi **Gemini** om, hvordan man laver en glans-effekt (glossy overlay) i ren CSS. Derudover fik vi hjælp til at finjustere billedstørrelserne, så layoutet ikke rykkede sig på iPad-skærmen.
-    * **Prompt til glans-effekt på knap:** Google (2026) Gemini, AI-genereret svar til bruger, 29. maj. Tilgængelig via:[Markdown Live Preview](https://gemini.google.com/share/b4782d18ca9c) (Hentet: 29. maj 2026).
+    * **Prompt til glans-effekt på knap:** Google (2026) Gemini, AI-genereret svar til bruger, 29. maj. Tilgængelig via:[https://gemini.google.com/share/b4782d18ca9c](https://gemini.google.com/share/b4782d18ca9c) (Hentet: 29. maj 2026).
     * **Gemini, tilpasning af størrelse på billede side:** Google (2026) Gemini, AI-genereret svar til bruger, 29. maj. Tilgængelig via:[Markdown Live Preview](https://gemini.google.com/share/f17c7614eaef) (Hentet: 29. maj 2026).
 * **Telefon-input + Claude.ai:** Da vi skulle finde ud af, hvordan man laver et input-felt til telefonnumre i HTML, og hvordan man bagefter henter det nummer ud med JavaScript, brugte vi først **W3Schools** til at se det grundlæggende. Men da vi skulle have det til at virke i vores egen løsning, drillede koden. Vi ville nemlig gerne have, at man selv manuelt kunne taste forskellige landekoder ind. Der kunne **Claude** fortælle os hvordan vi kunne sætte det sammen, og give en grundig forklaring, da vi stadig havde nogle spørgsmål efter **W3Schools**.
     * **W3Schools (2026). HTML Input Types** Tilgængelig via:[Markdown Live Preview](https://www.w3schools.com/html/html_form_input_types.asp) [Hentet 4. juni 2026].
