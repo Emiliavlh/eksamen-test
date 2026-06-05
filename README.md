@@ -170,8 +170,8 @@ Vi har undervejs i projektet brugt AI (f.eks. **ChatGPT/Gemini & CoPilot**) som 
 
 For at sikre, at vores kode er fejlfri, følger de officielle webstandarder og ikke har glemte tags eller skjulte fejl, har vi kørt vores filer igennem de officielle valideringsværktøjer (W3C Validators):
 * **HTML:** Vores index.html er blevet valideret med W3C Markup Validation Service 
-([Markdown Live Preview](https://validator.w3.org/nu/#textarea)). Koden er godkendt uden fejl ("Document checking completed. No errors or warnings to show.")
-* **CSS:** Vores style.css er blevet valideret med W3C CSS Validation Service (Jigsaw) ([Markdown Live Preview](https://jigsaw.w3.org/css-validator/validator)). Alt layout og iPad-styling er godkendt uden fejl.
+([https://validator.w3.org/nu/#textarea](https://validator.w3.org/nu/#textarea)). Koden er godkendt uden fejl ("Document checking completed. No errors or warnings to show.")
+* **CSS:** Vores style.css er blevet valideret med W3C CSS Validation Service (Jigsaw) ([https://jigsaw.w3.org/css-validator/validator](https://jigsaw.w3.org/css-validator/validator)). Alt layout og iPad-styling er godkendt uden fejl.
 
 #### HTML-validering:
 ![HTML-validering](/img/html-vali.png)
